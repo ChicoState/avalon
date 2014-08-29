@@ -11,3 +11,5 @@ My name is Nicolas Perez, and I am a Exchange Student from Brazil, this is the f
 My name is Sumit Dorle, This is my first commit on the github.
 Specifications: 
 Coding conventions: to be discussed and added later.
+
+My name is Colin Baldwin, I'm an aspiring artist and programmer. I have experience in HTML, Java, and a little bit in C++ 
