@@ -19,6 +19,8 @@ Team Introductions:
 
 I am Taber Storm Fitzgerald, and I am A junior in college with little GitHub experience and have dabbled in several languages such as C++ C# Java HTML CSS JS and love run on sentences.
 
+I am James Crean, a senior in the Computer Science department with background in mostly C/C++. My skype name is goldennut (not joking), feel free to add me so we can chat about the project.
+
 My name is Chue Vang, This is the first time I actually use GitHub for CSCI Project. I have experience C++ and a little on PHP and JAVA. 
 
 My name is Nicolas Perez, and I am a Exchange Student from Brazil, this is the first time I use GitHub. I have experience C and Java 
