@@ -1,4 +1,4 @@
-Team Avalon:
+Team Avalon(Slider Widget):
 We will make widgets for AngularJS that do not utilise any JQuery.
 We will use GitHub for version control and to manage our project.
 

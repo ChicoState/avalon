@@ -1,0 +1,32 @@
+﻿<!DOCTYPE html>
+<!-- 
+    Document   : index
+    Created on : Apr 8, 2014, 6:59:12 PM
+    Author     : Dr. Storm
+    Description:
+        This is a test slider for team Avalon
+-->
+<html>
+    <head>
+        <title >Slider Test Page</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.15/angular.min.js"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script><!--This links me to googles java script-->
+        <script src="myjavascript.js"></script><!--My java script file-->
+        <script src="taberSlider.js"></script>
+    </head>
+    <body>
+       <div class="body" ng-app="mySlider">
+            <div ng-controller="SliderController">
+                <button ng-click="decrease()">-</button>
+                <span>{{slider[0]+slider[1]+slider[2]+slider[3]+slider[4]+slider[5]+slider[6]+slider[7]+slider[8]+slider[9]}}</span>
+                <button ng-click="increase()">+</button>
+                <p>The value is {{value}}!</p>
+            </div>  
+        </div>
+        
+        
+    </body>
+</html>
