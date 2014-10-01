@@ -12,19 +12,16 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
-        <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.15/angular.min.js"></script>
-        <script src="taberSlider.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-rc.3/angular.js"></script>
+        <script src="bossy.slider.js"></script>
     </head>
     <body>
-       <div class="body" ng-app="mySlider">
+        <div ng-app="app.directive.bossy.slider">
             <div ng-controller="SliderController">
-                <button ng-click="decrease()">-</button>
-                <span>{{string}}</span>
-                <button ng-click="increase()">+</button>
-                <p>The value is {{value}}!</p>
-            </div>  
+                <bossy-slider></bossy-slider>
+                <bossy-slider></bossy-slider>
+            </div>
         </div>
         
-        
-    </body>
+     </body>
 </html>
