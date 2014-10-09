@@ -5,6 +5,7 @@ angular.module('app.directive.bossy.slider', [])
         $scope.min = 1;
         $scope.string = "----o----";
         $scope.slider = ['-', '-', '-', '-', 'o', '-', '-', '-', '-'];
+        //$scope.orientation = "horizantal";
 
         $scope.increase = function () {
             if ($scope.value < $scope.max) {
@@ -47,7 +48,9 @@ angular.module('app.directive.bossy.slider', [])
         return {
             restrict: 'AE',
             controller: 'SliderController',
-            template: '<button ng-click="decrease()" ng-keydown="keyBind($event)">-</button><span>{{string}}</span><button ng-click="increase()" ng-keydown="keyBind($event)">+</button><p>The value is {{value}}!</p>',
-            scope: {}
+            template: '<button ng-click="decrease()" ng-keydown="keyBind($event)">-</button><span>{{string}}</span><button ng-click="increase()" ng-keydown="keyBind($event)">+</button><p>The value is {{value}} and orientation is {{orientation}}!</p>',
+            scope: {
+                orientation: '@info'
+            }
         }
     });
