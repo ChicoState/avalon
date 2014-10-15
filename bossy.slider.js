@@ -5,8 +5,8 @@ angular.module('app.directive.bossy.slider', [])
         $scope.min = 1;
         $scope.string = "----o----";
         $scope.slider = ['-', '-', '-', '-', 'o', '-', '-', '-', '-'];
-        //$scope.orientation = "horizantal";
 
+        //checks bounds when attempting to decrease the value
         $scope.increase = function () {
             if ($scope.value < $scope.max) {
                 $scope.slider[$scope.value - 1] = '-';
@@ -20,15 +20,15 @@ angular.module('app.directive.bossy.slider', [])
         $scope.keyBind = function (ev) {
             $scope.pressed = ev.which;
             //If arrow key(Left or Down) is pressed then call the decrease() function to decrease the value.
-            if ($scope.pressed == 37 || $scope.pressed == 40) {
+            if ($scope.pressed === 37 || $scope.pressed === 40) {
                 $scope.decrease();
             }
             //same as above but for Up or Right to increase the value.
-            if ($scope.pressed == 38 || $scope.pressed == 39) {
+            if ($scope.pressed === 38 || $scope.pressed === 39) {
                 $scope.increase();
             }
         };
-
+        //checks bounds when attempting to decrease the value
         $scope.decrease = function () {
             if ($scope.value > $scope.min) {
                 $scope.slider[$scope.value - 1] = '-';
@@ -39,18 +39,20 @@ angular.module('app.directive.bossy.slider', [])
         };
         $scope.getstring = function () {  //function takes the slider array and creates a string of the contents. 
             $scope.string = "";
-            for (var i = 0; i < 9; i++) {
-                $scope.string += $scope.slider[i];
-            }
+            //changed to the angular forEach loop for readability
+            angular.forEach($scope.slider, function (item) {
+                $scope.string += item;
+            })
+                
         };
 
     }]).directive('bossySlider', function () {
         return {
             restrict: 'AE',
             controller: 'SliderController',
-            template: '<button ng-click="decrease()" ng-keydown="keyBind($event)">-</button><span>{{string}}</span><button ng-click="increase()" ng-keydown="keyBind($event)">+</button><p>The value is {{value}} and orientation is {{orientation}}!</p>',
+            template: '<button ng-click="decrease()" ng-keydown="keyBind($event)">-</button><span>{{string}}</span><button ng-click="increase()" ng-keydown="keyBind($event)">+</button><p>The value is {{value}} and orientation is {{option}}!</p>',
             scope: {
-                orientation: '@info'
+                option: '@option'
             }
         }
     });
