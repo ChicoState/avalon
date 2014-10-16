@@ -13,7 +13,7 @@ angular.module('app.directive.bossy.slider', [])
                 $scope.value = $scope.value + 1;
                 $scope.slider[$scope.value - 1] = 'o';
             }
-            $scope.getstring();
+            $scope.draw();
         };
 
         //This function is to bind the decrease and increase function with the arrow keys
@@ -35,7 +35,7 @@ angular.module('app.directive.bossy.slider', [])
                 $scope.value = $scope.value - 1;
                 $scope.slider[$scope.value - 1] = 'o';
             }
-            $scope.getstring();
+            $scope.draw();
         };
         $scope.draw = function () {  //function takes the slider array and creates a string of the contents. 
             $scope.string = "";
