@@ -37,7 +37,7 @@ angular.module('app.directive.bossy.slider', [])
             }
             $scope.getstring();
         };
-        $scope.getstring = function () {  //function takes the slider array and creates a string of the contents. 
+        $scope.draw = function () {  //function takes the slider array and creates a string of the contents. 
             $scope.string = "";
             //changed to the angular forEach loop for readability
             angular.forEach($scope.slider, function (item) {
