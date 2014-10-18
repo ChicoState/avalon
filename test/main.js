@@ -25,4 +25,27 @@ describe('Unit: SliderController', function() {
       scope.decrease();
       expect(scope.value).toEqual(4);
   });
+
+  it('should not increment past the max', function() {
+      scope.value = scope.max;
+      expect(scope.value).toEqual(9);
+      scope.increase();
+      expect(scope.value).toEqual(scope.max);
+ 	  scope.increase();
+ 	  scope.increase();
+      expect(scope.value).toEqual(scope.max);
+      expect(scope.value).toEqual(9);
+  });
+
+  it('should not decrement past the min', function() {
+  	  scope.value = scope.min;
+      expect(scope.value).toEqual(1);
+      scope.decrease();
+      expect(scope.value).toEqual(scope.min);
+ 	  scope.decrease();
+ 	  scope.decrease();
+      expect(scope.value).toEqual(scope.min);
+      expect(scope.value).toEqual(1);
+  });
+
 })
