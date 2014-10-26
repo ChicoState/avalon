@@ -62,6 +62,7 @@ angular.module('app.directive.bossy.slider', [])
             return $scope.string;
                 
         };
+        
 
     }]).directive('bossySlider', function () {
         return {
@@ -69,7 +70,7 @@ angular.module('app.directive.bossy.slider', [])
             restrict: 'AE',
             controller: 'SliderController',
             //This is the template the slider form takes and inserts into HTML we also chang a string into html by making it safe
-            template: '<button ng-click="decrease()" ng-keydown="keyBind($event)">-</button><span ng-bind-html="renderHtml(string)">{{}}</span><button ng-click="increase()" ng-keydown="keyBind($event)">+</button><p>The value is {{value}} and orientation is {{options}}!</p>',
+            template: '<button ng-click="decrease()" ng-keydown="keyBind($event)">-</button><span ng-bind-html="renderHtml(string)">{{}}</span><button ng-click="increase()" ng-keydown="keyBind($event)">+</button><input type= "text" ng-model= "max">max</input><input type= "text" ng-model= "min">min</input><p>The value is {{value}} and orientation is {{options}}!</p>',
             scope: {
                 options: '@options'
             }
