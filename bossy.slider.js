@@ -5,7 +5,7 @@ angular.module('app.directive.bossy.slider', [])
         $scope.max = 9;
         $scope.min = 1;
         //this was roughly based off sumits code. Angular was not letting me display the html object so I made a string of it.
-        $scope.barPiece = '<div style="display:inline-block;width:10px;height:10px;background-color:#0000FF;"></div>';
+        $scope.barPiece = '<div style="display:inline-block;width:10px;height:10px;background-color:darkblue;"></div>';
         $scope.slideBut = '<div style="display:inline-block;width:10px;height:10px;background-color:red;"></div>';
         //this is going to need to be more dynamic and encompassing of all different max and mins
         $scope.slider = [$scope.barPiece, $scope.barPiece, $scope.barPiece, $scope.barPiece, $scope.slideBut, $scope.barPiece, $scope.barPiece, $scope.barPiece, $scope.barPiece];
@@ -72,7 +72,7 @@ angular.module('app.directive.bossy.slider', [])
             //This is the template the slider form takes and inserts into HTML we also chang a string into html by making it safe
             template: '<button ng-click="decrease()" ng-keydown="keyBind($event)">-</button><span ng-bind-html="renderHtml(string)">{{}}</span><button ng-click="increase()" ng-keydown="keyBind($event)">+</button><input type= "text" ng-model= "max">max</input><input type= "text" ng-model= "min">min</input><p>The value is {{value}} and orientation is {{options}}!</p>',
             scope: {
-                options: '@options'
+                options: '@'
             }
         }
     });
