@@ -1,14 +1,33 @@
 angular.module('app.directive.bossy.slider', [])
     .controller('SliderController', ['$scope', '$sce', function ($scope, $sce) {
-        //when we can get info into the controller from the directive we need to set or overwrite these when needed
-        $scope.value = 5;
-        $scope.max = 9;
-        $scope.min = 1;
-        //this was roughly based off sumits code. Angular was not letting me display the html object so I made a string of it.
-        $scope.barPiece = '<div style="display:inline-block;width:10px;height:10px;background-color:darkblue;"></div>';
+
+        //we can change these values freely with out fear of breaking aesthetics
+        $scope.max = 15;
+        $scope.min = -5;
+        //button should show up in the middle now or close to if uneven
+        $scope.value = parseInt(($scope.max + $scope.min) / 2);
+
+        //"Art" for a bar piece
+        $scope.barPiece = '<div style="display:inline-block;width:10px;height:10px;background-color:#0000FF;"></div>';
+
+        //"Art" for a slider button
         $scope.slideBut = '<div style="display:inline-block;width:10px;height:10px;background-color:red;"></div>';
-        //this is going to need to be more dynamic and encompassing of all different max and mins
-        $scope.slider = [$scope.barPiece, $scope.barPiece, $scope.barPiece, $scope.barPiece, $scope.slideBut, $scope.barPiece, $scope.barPiece, $scope.barPiece, $scope.barPiece];
+
+        //as it is named it is used to maintain correct alignment with the slider bar array
+        var offSet = $scope.min - 1;
+
+        //initialize the slider bar to what ever size we need it uses
+        function makeBar() {
+            var constructSlider = [];
+            for (var current = $scope.min; current <= $scope.max; current++) {
+                constructSlider.push($scope.barPiece);
+            }
+            constructSlider[$scope.value - ($scope.min)] = $scope.slideBut;
+            return constructSlider;
+        };
+
+        $scope.slider = makeBar();
+
         $scope.string = $scope.slider.toString().split(",").join("");
         
         //our html needs to be trusted to be used in placed in our template
@@ -20,22 +39,22 @@ angular.module('app.directive.bossy.slider', [])
         
         //angular.extend();//possibility to be used for setting values
 
-        //checks bounds when attempting to decrease the value needs to be able to encompass all sorts of starting min values
+        //checks bounds when attempting to decrease the value: They Now work well with negitive min values
         $scope.increase = function () {
             if ($scope.value < $scope.max) {
-                $scope.slider[$scope.value - 1] = $scope.barPiece;
+                $scope.slider[$scope.value - offSet - 1] = $scope.barPiece;
                 $scope.value = $scope.value + 1;
-                $scope.slider[$scope.value - 1] = $scope.slideBut;
+                $scope.slider[$scope.value - offSet - 1] = $scope.slideBut;
             }
             $scope.draw();
         };
 
-        //checks bounds when attempting to decrease the value needs to be able to encompass all sorts of starting min values
+        //checks bounds when attempting to decrease the value
         $scope.decrease = function () {
             if ($scope.value > $scope.min) {
-                $scope.slider[$scope.value - 1] = $scope.barPiece;
+                $scope.slider[$scope.value - offSet - 1] = $scope.barPiece;
                 $scope.value = $scope.value - 1;
-                $scope.slider[$scope.value - 1] = $scope.slideBut;
+                $scope.slider[$scope.value - offSet - 1] = $scope.slideBut;
             }
             $scope.draw();
         };
