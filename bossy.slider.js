@@ -20,6 +20,7 @@ angular.module('app.directive.bossy.slider', [])
         $scope.barPiece = '<div style="display:inline-block;width:10px;height:10px;background-color:#0000FF;"></div>';
         //"Art" for a slider button
         $scope.slideBut = '<div style="display:inline-block;width:10px;height:10px;background-color:red;"></div>';
+            
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         //as it is named it is used to maintain correct alignment with the slider bar array
@@ -32,6 +33,10 @@ angular.module('app.directive.bossy.slider', [])
         * in the array*/
         $scope.makeBar = function () {
             var constructSlider = [];
+            if($scope.orientation === "vertical"){
+                $scope.barPiece = '<div style="width:10px;height:10px;background-color:#0000FF;"></div>';
+                $scope.slideBut = '<div style="width:10px;height:10px;background-color:red;"></div>';
+            }
             for (var current = $scope.min; current <= $scope.max; current++) {
                 constructSlider.push($scope.barPiece);
             }
