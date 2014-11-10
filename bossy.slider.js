@@ -17,9 +17,9 @@ angular.module('app.directive.bossy.slider', [])
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         //"Art" for a bar piece
-        $scope.barPiece = '<div style="display:inline-block;width:10px;height:8px;background-color:#0000FF;"></div>';
+        $scope.barPiece = '<div style="display:inline-block;width:10px;height:10px;background-color:#0000FF;"></div>';
         //"Art" for a slider button offset
-        $scope.slideOff = '<div style="display:inline-block;width:10px;height:8px;background-color:#4242fa;"></div>';
+        $scope.slideOff = '<div style="display:inline-block;width:10px;height:10px;background-color:#4242fa;"></div>';
         //"Art" for a slider button
         $scope.slideBut = '<div style="display:inline-block;width:10px;height:10px;background-color:red;"></div>';
             
@@ -38,7 +38,7 @@ angular.module('app.directive.bossy.slider', [])
             if($scope.orientation === "vertical"){
                 $scope.barPiece = '<div style="width:10px;height:10px;background-color:#0000FF;"></div>';
                 $scope.slideBut = '<div style="width:10px;height:10px;background-color:red;"></div>';
-                $scope.slideOff = '<div style="width:10px;height:8px;background-color:#4242fa;"></div>';
+                $scope.slideOff = '<div style="width:10px;height:10px;background-color:#4242fa;"></div>';
             }
             for (var current = $scope.min; current <= $scope.max; current++) {
                 constructSlider.push($scope.barPiece);
@@ -65,7 +65,8 @@ angular.module('app.directive.bossy.slider', [])
         $scope.increase = function () {
             if ($scope.value < $scope.max) {
                 $scope.slider[$scope.value - offSet - 1] = $scope.slideOff;
-                $scope.slider[$scope.value - offSet + 1] = $scope.slideOff;
+                if($scope.value !== $scope.max-1)
+                    $scope.slider[$scope.value - offSet + 1] = $scope.slideOff;
                 $scope.slider[$scope.value - offSet - 2] = $scope.barPiece;
                 $scope.value = $scope.value + 1;
                 $scope.slider[$scope.value - offSet - 1] = $scope.slideBut;
