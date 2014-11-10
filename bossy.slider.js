@@ -36,9 +36,9 @@ angular.module('app.directive.bossy.slider', [])
         $scope.makeBar = function () {
             var constructSlider = [];
             if($scope.orientation === "vertical"){
-                $scope.barPiece = '<div style="width:10px;height:10px;background-color:#0000FF;"></div>';
-                $scope.slideBut = '<div style="width:10px;height:10px;background-color:red;"></div>';
-                $scope.slideOff = '<div style="width:10px;height:10px;background-color:#4242fa;"></div>';
+                $scope.barPiece = '<div style="margin-left:5px;width:10px;height:10px;background-color:#0000FF;"></div>';
+                $scope.slideBut = '<div style="margin-left:5px;width:10px;height:10px;background-color:red;"></div>';
+                $scope.slideOff = '<div style="margin-left:5px;width:10px;height:10px;background-color:#4242fa;"></div>';
             }
             for (var current = $scope.min; current <= $scope.max; current++) {
                 constructSlider.push($scope.barPiece);
