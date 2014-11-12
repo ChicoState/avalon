@@ -1,9 +1,9 @@
 /*This is a slider widget created in angular as part of the BossyUI widgets.
-* The easiest way to use the slider is to include it in your HTML and then
-* create a tag <bossy-slider></bossy-slider>. This widget take in several
-* ways to customize. Currently it takes max, min, and orientation. It is
-* expected to take color and button color. ex.
-* <bossy-slider max="20" min="-5" orientation="vertical"></bossy-slider>*/
+ * The easiest way to use the slider is to include it in your HTML and then
+ * create a tag <bossy-slider></bossy-slider>. This widget take in several
+ * ways to customize. Currently it takes max, min, and orientation. It is
+ * expected to take color and button color. ex.
+ * <bossy-slider max="20" min="-5" orientation="vertical"></bossy-slider>*/
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 angular.module('app.directive.bossy.slider', [])
@@ -17,12 +17,12 @@ angular.module('app.directive.bossy.slider', [])
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         //"Art" for a bar piece
-        $scope.barPiece = '<div style="display:inline-block;width:10px;height:10px;background-color:#0000FF;"></div>';
+        $scope.barPiece = '<div style="display:inline-block;width:10px;height:10px;background-color:blue;"></div>';
         //"Art" for a slider button offset
-        $scope.slideOff = '<div style="display:inline-block;width:10px;height:10px;background-color:#4242fa;"></div>';
+        $scope.slideOff = '<div style="display:inline-block;width:10px;height:10px;background-color:grey;"></div>';
         //"Art" for a slider button
         $scope.slideBut = '<div style="display:inline-block;width:10px;height:10px;background-color:red;"></div>';
-            
+
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         //as it is named it is used to maintain correct alignment with the slider bar array
@@ -30,44 +30,47 @@ angular.module('app.directive.bossy.slider', [])
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         /*makeBar()
-        * This initializes the array that keeps track of all the pieces of the slider,
-        * it initializes the off-set used to map the sliders value to the correct position
-        * in the array*/
+         * This initializes the array that keeps track of all the pieces of the slider,
+         * it initializes the off-set used to map the sliders value to the correct position
+         * in the array*/
         $scope.makeBar = function () {
             var constructSlider = [];
-            if($scope.orientation === "vertical"){
-                $scope.barPiece = '<div style="margin-left:5px;width:10px;height:10px;background-color:#0000FF;"></div>';
-                $scope.slideBut = '<div style="margin-left:5px;width:10px;height:10px;background-color:red;"></div>';
-                $scope.slideOff = '<div style="margin-left:5px;width:10px;height:10px;background-color:#4242fa;"></div>';
-            }
-            for (var current = $scope.min; current <= $scope.max; current++) {
-                constructSlider.push($scope.barPiece);
-            }
-
             offSet = $scope.min - 1;
             //button should show up in the middle now or close to if uneven
             $scope.value = parseInt(($scope.max + $scope.min) / 2);
-            constructSlider[$scope.value - ($scope.min)] = $scope.slideBut;
+            if ($scope.orientation === "vertical") {
+                $scope.barPiece = '<div style="margin-left:5px;width:10px;height:10px;background-color:blue;"></div>';
+                $scope.slideBut = '<div style="margin-left:5px;width:10px;height:10px;background-color:red;"></div>';
+                $scope.slideOff = '<div style="margin-left:5px;width:10px;height:10px;background-color:grey;"></div>';
+            }
+            for (var current = $scope.min; current <= $scope.max; current++) {
+                if (current < ($scope.value)) {
+                    constructSlider.push($scope.barPiece);
+                }
+                if (current > ($scope.value)) {
+                    constructSlider.push($scope.slideOff);
+                }
+                if (current == ($scope.value)) {
+                    constructSlider.push($scope.slideBut);
+                }
+            }
             return constructSlider;
         };
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         /*renderHTML(string)
-        * This take a string in the format of HTML and validates it for use as HTML*/
+         * This take a string in the format of HTML and validates it for use as HTML*/
         $scope.renderHtml = function (html_code) {
             return $sce.trustAsHtml(html_code);
         };
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         /*increase()
-        * This checks bounds when attempting to increase the value and moves the position
-        * of the slider button and updates the value.*/
+         * This checks bounds when attempting to increase the value and moves the position
+         * of the slider button and updates the value.*/
         $scope.increase = function () {
             if ($scope.value < $scope.max) {
-                $scope.slider[$scope.value - offSet - 1] = $scope.slideOff;
-                if($scope.value !== $scope.max-1)
-                    $scope.slider[$scope.value - offSet + 1] = $scope.slideOff;
-                $scope.slider[$scope.value - offSet - 2] = $scope.barPiece;
+                $scope.slider[$scope.value - offSet - 1] = $scope.barPiece;
                 $scope.value = $scope.value + 1;
                 $scope.slider[$scope.value - offSet - 1] = $scope.slideBut;
             }
@@ -81,9 +84,7 @@ angular.module('app.directive.bossy.slider', [])
         $scope.decrease = function () {
             if ($scope.value > $scope.min) {
                 $scope.slider[$scope.value - offSet - 1] = $scope.slideOff;
-                $scope.slider[$scope.value - offSet - 3] = $scope.slideOff;
-                $scope.slider[$scope.value - offSet ] = $scope.barPiece;
-                $scope.value = $scope.value - 1;  
+                $scope.value = $scope.value - 1;
                 $scope.slider[$scope.value - offSet - 1] = $scope.slideBut;
             }
             $scope.draw();
@@ -91,7 +92,7 @@ angular.module('app.directive.bossy.slider', [])
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         /*keyBind($event)
-        * This function is to bind the decrease and increase function with the arrow keys*/
+         * This function is to bind the decrease and increase function with the arrow keys*/
         $scope.keyBind = function (ev) {
             $scope.pressed = ev.which;
             //If arrow key(Left or Down) is pressed then call the decrease() function to decrease the value.
@@ -105,8 +106,8 @@ angular.module('app.directive.bossy.slider', [])
         };
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
         /*draw()
-        * This function takes the slider array and creates a string of the contents. So it can be rendered
-        * in HTML.*/
+         * This function takes the slider array and creates a string of the contents. So it can be rendered
+         * in HTML.*/
         $scope.draw = function () {
             $scope.string = "";
             //changed to the angular forEach loop for readability
