@@ -110,10 +110,17 @@ angular.module('app.directive.bossy.slider', [])
          * in HTML.*/
         $scope.draw = function () {
             $scope.string = "";
+            if($scope.orientation === "vertical")
+                $scope.slider.reverse();                
+
             //changed to the angular forEach loop for readability
             angular.forEach($scope.slider, function (item) {
                 $scope.string += item;
             })
+            
+            if($scope.orientation === "vertical")
+                $scope.slider.reverse();            
+            
             //this should allow the programmer access to this value outside the slider controller
             $scope.ngModel = $scope.value;
             return $scope.string;
