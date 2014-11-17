@@ -31,3 +31,11 @@ It has been decided to use three spaces per indent. EX.
 It has been decided to have more talk about this... EX.
    As in human talking. ;)
 
+
+ROADMAP:
+
+test
+   -holds angular js library and tests
+   
+node_modules
+   -holds testing frameworks
