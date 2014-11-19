@@ -12,6 +12,7 @@ describe('Unit: SliderController', function() {
     ctrl = $controller('SliderController', {
       $scope: scope
     });
+    scope.makeBar();
   }));
 
   it('should increment the slider value when calling increase', function() {
