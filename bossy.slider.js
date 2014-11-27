@@ -6,10 +6,8 @@
  * <bossy-slider max="20" min="-5" orientation="vertical"></bossy-slider>*/
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-angular.module('app.directive.bossy.slider', [])
-    .controller('SliderController', ['$scope', function ($scope) {
-
-
+var app = angular.module('app.directive.bossy.slider', []);
+    app.controller('SliderController', ['$scope', function ($scope) {
         //these are our default values and are the variables that can be changed by user of our widgets
         $scope.max = 10;
         $scope.min = 1;
@@ -81,25 +79,24 @@ angular.module('app.directive.bossy.slider', [])
             return;
         };
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-        /*drag()
-         * This function is to allow the slider button to slide and update the value when released*/
+		/*
+        //drag()
+        //This function is to allow the slider button to slide and update the value when released
         $scope.drag = function () {
             alert("drag");
             return;
         };
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        /*barClick()
-         * This function is to allow the value to be changed when clicking on the bar*/
+        //barClick()
+        //This function is to allow the value to be changed when clicking on the bar
         $scope.barClick = function () {
             alert("bar click");
             return;
-        };
+        };*/
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-    }]).directive('bossySlider', function ($compile) {
+    }])
+	app.directive('bossySlider', function ($compile) {
         var myTemplate;
         return {
             //allows the slider to be created as and attribute or element <bossy-slider><bossy-slider>
@@ -155,18 +152,18 @@ angular.module('app.directive.bossy.slider', [])
                 if (iAttr.orientation) {
                     if ('vertical' === iAttr.orientation) {
                         myTemplate = '<button ng-click="increase()" ng-keydown="keyBind($event)">+</button>' +
-                        '<div ng-click="barClick()" style="margin-left:9px;width:3px;height:{{10 * emptWidth}}px;background-color:'+ scope.baremptycolor + ';margin-bottom:4px"></div>' +
-                        '<div ng-mousedown="drag()" style="margin-top:-4px;margin-left:5px;width:10px;height:10px;background-color:'+ scope.buttoncolor + ';border-radius:50%;"></div>' +
-                        '<div ng-click="barClick()" style="margin-left:9px;width:3px;height:{{10 * fillWidth}}px;background-color:' + scope.barfillcolor + ';margin-bottom:4px"></div>' +
+                        '<div style="margin-left:9px;width:3px;height:{{10 * emptWidth}}px;background-color:'+ scope.baremptycolor + ';margin-bottom:4px"></div>' +
+                        '<div draggable style="position:absolute;cursor:move;margin-top:-4px;margin-left:5px;width:10px;height:10px;background-color:'+ scope.buttoncolor + ';border-radius:50%;"></div>' +
+                        '<div  style="margin-left:9px;width:3px;height:{{10 * fillWidth}}px;background-color:' + scope.barfillcolor + ';margin-bottom:4px"></div>' +
                         '<button ng-click="decrease()" ng-keydown="keyBind($event)">-</button>';
                     }
                 }
                 else {
                     //this builds our horizontal template
                     myTemplate = '<button ng-click="decrease()" ng-keydown="keyBind($event)">-</button>' +
-                    '<div ng-click="barClick()" style="display:inline-block;width:{{10 * fillWidth}}px;height:3px;background-color:' + scope.barfillcolor + ';margin-bottom:4px"></div>' +
-                    '<div ng-mousedown="drag()" style="display:inline-block;width:10px;height:10px;background-color:'+ scope.buttoncolor + ';border-radius:50%;"></div>' +
-                    '<div ng-click="barClick()" style="display:inline-block;width:{{10 * emptWidth}}px;height:3px;background-color:'+ scope.baremptycolor + ';margin-bottom:4px"></div>' +
+                    '<div style="display:inline-block;width:{{10 * fillWidth}}px;height:3px;background-color:' + scope.barfillcolor + ';margin-bottom:4px"></div>' +
+                    '<div draggable style="position:absolute;cursor:move;display:inline-block;width:10px;height:10px;background-color:'+ scope.buttoncolor + ';border-radius:50%;"></div>' +
+                    '<div style="display:inline-block;width:{{10 * emptWidth}}px;height:3px;background-color:'+ scope.baremptycolor + ';margin-bottom:4px"></div>' +
                     '<button ng-click="increase()" ng-keydown="keyBind($event)">+</button>';
                 }
                 //We show our template and then compile it so the DOM knows about our ng functions
@@ -178,3 +175,40 @@ angular.module('app.directive.bossy.slider', [])
             }
         }
     });
+	
+	app.directive('draggable', ['$document' , function($document) {
+    return {
+      restrict: 'A',
+      //scope: {
+      //we will need this to alter code for vertical orientation of the slider.
+      //  orient: '='
+      //}
+      link: function(scope, elm, attrs) {
+        var startX, startY, initialMouseX, initialMouseY, disx, disy;
+        elm.css({position: 'absolute'});
+          elm.bind('mousedown', function($event) {
+          startX = elm.prop('offsetLeft');
+          startY = elm.prop('offsetTop');
+          initialMouseX = $event.clientX;
+          initialMouseY = $event.clientY;
+          $document.bind('mousemove', mousemove);
+          $document.bind('mouseup', mouseup);
+          return false;
+        });
+ 
+        function mousemove($event) {
+          disx = $event.clientX - initialMouseX;
+          disy = $event.clientY - initialMouseY;
+          elm.css({
+            left: startX + disx + 'px'
+          });
+          return false;
+        }
+ 
+        function mouseup() {
+          $document.unbind('mousemove', mousemove);
+          $document.unbind('mouseup', mouseup);
+        }
+      }
+    };
+  }]);
