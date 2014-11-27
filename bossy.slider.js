@@ -162,7 +162,7 @@ var app = angular.module('app.directive.bossy.slider', []);
                     //this builds our horizontal template
                     myTemplate = '<button ng-click="decrease()" ng-keydown="keyBind($event)">-</button>' +
                     '<div style="display:inline-block;width:{{10 * fillWidth}}px;height:3px;background-color:' + scope.barfillcolor + ';margin-bottom:4px"></div>' +
-                    '<div draggable style="position:absolute;cursor:move;display:inline-block;width:10px;height:10px;background-color:'+ scope.buttoncolor + ';border-radius:50%;"></div>' +
+                    '<div draggable orientation="vertical" style="position:absolute;cursor:move;display:inline-block;width:10px;height:10px;background-color:'+ scope.buttoncolor + ';border-radius:50%;"></div>' +
                     '<div style="display:inline-block;width:{{10 * emptWidth}}px;height:3px;background-color:'+ scope.baremptycolor + ';margin-bottom:4px"></div>' +
                     '<button ng-click="increase()" ng-keydown="keyBind($event)">+</button>';
                 }
@@ -185,8 +185,8 @@ var app = angular.module('app.directive.bossy.slider', []);
       //}
       link: function(scope, elm, attrs) {
         var startX, startY, initialMouseX, initialMouseY, disx, disy;
-        elm.css({position: 'absolute'});
-          elm.bind('mousedown', function($event) {
+ 		elm.css({position: 'absolute'});
+          elm.bind('mousedown', function($event) {		  
           startX = elm.prop('offsetLeft');
           startY = elm.prop('offsetTop');
           initialMouseX = $event.clientX;
@@ -199,9 +199,16 @@ var app = angular.module('app.directive.bossy.slider', []);
         function mousemove($event) {
           disx = $event.clientX - initialMouseX;
           disy = $event.clientY - initialMouseY;
-          elm.css({
-            left: startX + disx + 'px'
-          });
+          if (attrs.orientation === "vertical")
+		  {
+			  elm.css({
+				left: startX + disx + 'px',	
+			  });
+		  } else {
+		      elm.css({
+				top:  startY + disy + 'px',					
+			  });
+		  }			
           return false;
         }
  
