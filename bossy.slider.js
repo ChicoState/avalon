@@ -153,7 +153,7 @@ var app = angular.module('app.directive.bossy.slider', []);
                     if ('vertical' === iAttr.orientation) {
                         myTemplate = '<button ng-click="increase()" ng-keydown="keyBind($event)">+</button>' +
                         '<div style="margin-left:9px;width:3px;height:{{10 * emptWidth}}px;background-color:'+ scope.baremptycolor + ';margin-bottom:4px"></div>' +
-                        '<div draggable style="position:absolute;cursor:move;margin-top:-4px;margin-left:5px;width:10px;height:10px;background-color:'+ scope.buttoncolor + ';border-radius:50%;"></div>' +
+                        '<div draggable orientation="vertical" style="position:absolute;cursor:move;margin-top:-4px;margin-left:5px;width:10px;height:10px;background-color:'+ scope.buttoncolor + ';border-radius:50%;"></div>' +
                         '<div  style="margin-left:9px;width:3px;height:{{10 * fillWidth}}px;background-color:' + scope.barfillcolor + ';margin-bottom:4px"></div>' +
                         '<button ng-click="decrease()" ng-keydown="keyBind($event)">-</button>';
                     }
@@ -162,7 +162,7 @@ var app = angular.module('app.directive.bossy.slider', []);
                     //this builds our horizontal template
                     myTemplate = '<button ng-click="decrease()" ng-keydown="keyBind($event)">-</button>' +
                     '<div style="display:inline-block;width:{{10 * fillWidth}}px;height:3px;background-color:' + scope.barfillcolor + ';margin-bottom:4px"></div>' +
-                    '<div draggable orientation="vertical" style="position:absolute;cursor:move;display:inline-block;width:10px;height:10px;background-color:'+ scope.buttoncolor + ';border-radius:50%;"></div>' +
+                    '<div draggable orientation="horizontal" style="position:absolute;cursor:move;display:inline-block;width:10px;height:10px;background-color:'+ scope.buttoncolor + ';border-radius:50%;"></div>' +
                     '<div style="display:inline-block;width:{{10 * emptWidth}}px;height:3px;background-color:'+ scope.baremptycolor + ';margin-bottom:4px"></div>' +
                     '<button ng-click="increase()" ng-keydown="keyBind($event)">+</button>';
                 }
@@ -202,11 +202,11 @@ var app = angular.module('app.directive.bossy.slider', []);
           if (attrs.orientation === "vertical")
 		  {
 			  elm.css({
-				left: startX + disx + 'px',	
+				top:  startY + disy + 'px',	
 			  });
 		  } else {
 		      elm.css({
-				top:  startY + disy + 'px',					
+			    left: startX + disx + 'px',								
 			  });
 		  }			
           return false;
