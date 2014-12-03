@@ -12,6 +12,7 @@ describe('Unit: SliderController', function() {
     ctrl = $controller('SliderController', {
       $scope: scope
     });
+    scope.makeBar();
   }));
 
   it('should increment the slider value when calling increase', function() {
@@ -28,13 +29,13 @@ describe('Unit: SliderController', function() {
 
   it('should not increment past the max', function() {
       scope.value = scope.max;
-      expect(scope.value).toEqual(9);
+      expect(scope.value).toEqual(10);
       scope.increase();
       expect(scope.value).toEqual(scope.max);
  	  scope.increase();
  	  scope.increase();
       expect(scope.value).toEqual(scope.max);
-      expect(scope.value).toEqual(9);
+      expect(scope.value).toEqual(10);
   });
 
   it('should not decrement past the min', function() {

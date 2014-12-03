@@ -18,7 +18,7 @@
         <div ng-app="app.directive.bossy.slider">
 
             <p></p>
-            <bossy-slider min="1" max="100" ng-model="mine"></bossy-slider>
+            <bossy-slider min="1" max="100" ng-model="mine" barfillcolor='#12f0ff'></bossy-slider>
             <p>The value is {{mine}}!</p>
             <bossy-slider min="10" max="30" ng-model="mine2"></bossy-slider>
             <p>The value is {{mine2}}!</p>
@@ -26,8 +26,12 @@
             <p>The value is {{mine3}}!</p>
             <bossy-slider min="-5" max="0" ng-model="mine4"></bossy-slider>
             <p>The value is {{mine4}}!</p>
+            <bossy-slider orientation="vertical" barfillcolor='#ff0000' baremptycolor='#00ff00' buttoncolor='#0000ff' ng-model="mine5"></bossy-slider>
+            <p>The value is {{mine3}}!</p>
+            <bossy-slider min="-5" max="0" barfillcolor='#ff0000' baremptycolor='#00ff00' buttoncolor='#0000ff' ng-model="mine6"></bossy-slider>
+            <p>The value is {{mine4}}!</p>
             <p></p>
-            <p>They add up to {{mine + mine2 + mine3 + mine4}}</p>
+            <p>They add up to {{mine + mine2 + mine3 + mine4 + mine5 + mine6}}</p>
 
         </div>
         
