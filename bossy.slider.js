@@ -92,11 +92,19 @@ angular.module('app.directive.bossy.slider', [])
 
         /*barClick()
          * This function is to allow the value to be changed when clicking on the bar*/
-        $scope.barClick = function () {
-            alert("bar click");
+        $scope.greyClick = function (event) {
+            //When click on the empty bar the bar will increase
+            $scope.increase();
+
             return;
         };
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        $scope.barClick = function (event) {
+            //When click on the Filled up color side the bar will decrease
+            $scope.decrease();
+
+            return;
+        };
 
 
     }]).directive('bossySlider', function ($compile) {
@@ -131,9 +139,9 @@ angular.module('app.directive.bossy.slider', [])
                 if (iAttr.orientation) {
                     if ('vertical' === iAttr.orientation) {
                         myTemplate = '<button ng-click="increase()" ng-keydown="keyBind($event)">+</button>' +
-                        '<div ng-click="barClick()" style="margin-left:9px;width:3px;height:{{10 * emptWidth}}px;background-color:lightgrey;margin-bottom:4px"></div>' +
+                        '<div ng-click="greyClick(event)" style="margin-left:9px;width:3px;height:{{10 * emptWidth}}px;background-color:lightgrey;margin-bottom:4px"></div>' +
                         '<div ng-mousedown="drag()" style="margin-top:-4px;margin-left:5px;width:10px;height:10px;background-color:red;border-radius:50%;"></div>' +
-                        '<div ng-click="barClick()" style="margin-left:9px;width:3px;height:{{10 * fillWidth}}px;background-color:blue;margin-bottom:4px"></div>' +
+                        '<div ng-click="barClick(event)" style="margin-left:9px;width:3px;height:{{10 * fillWidth}}px;background-color:blue;margin-bottom:4px"></div>' +
                         '<button ng-click="decrease()" ng-keydown="keyBind($event)">-</button>';
                     }
                 }
@@ -142,7 +150,7 @@ angular.module('app.directive.bossy.slider', [])
                     myTemplate = '<button ng-click="decrease()" ng-keydown="keyBind($event)">-</button>' +
                     '<div ng-click="barClick()" style="display:inline-block;width:{{10 * fillWidth}}px;height:3px;background-color:blue;margin-bottom:4px"></div>' +
                     '<div ng-mousedown="drag()" style="display:inline-block;width:10px;height:10px;background-color:red;border-radius:50%;"></div>' +
-                    '<div ng-click="barClick()" style="display:inline-block;width:{{10 * emptWidth}}px;height:3px;background-color:lightgrey;margin-bottom:4px"></div>' +
+                    '<div ng-click="greyClick()" style="display:inline-block;width:{{10 * emptWidth}}px;height:3px;background-color:lightgrey;margin-bottom:4px"></div>' +
                     '<button ng-click="increase()" ng-keydown="keyBind($event)">+</button>';
                 }
                 //We show our template and then compile it so the DOM knows about our ng functions
