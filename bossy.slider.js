@@ -7,13 +7,16 @@
  * <bossy-slider max="20" min="-5" orientation="vertical"></bossy-slider>*/
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-var app = angular.module('app.directive.bossy.slider', []);
+var app = angular.module('bossy.slider', []);
 app.controller('SliderController', ['$scope', function ($scope) {
     //these are our default values and are the variables that can be changed by user of our widgets
     $scope.max = 10;
     $scope.min = 1;
     $scope.fillWidth = 0;
     $scope.emptWidth = 0;
+    $scope.barWidth = 500;
+    $scope.barPiece = 0;
+    $scope.step = 1;
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -42,7 +45,7 @@ app.controller('SliderController', ['$scope', function ($scope) {
      * of the slider button and updates the value.*/
     $scope.increase = function () {
         if ($scope.value < $scope.max) {
-            $scope.value = $scope.value + 1;
+            $scope.value = $scope.value + $scope.step;
             $scope.fillWidth++;
             $scope.emptWidth--;
             $scope.ngModel = $scope.value;
@@ -71,16 +74,19 @@ app.controller('SliderController', ['$scope', function ($scope) {
         $scope.pressed = ev.which;
         //If arrow key(Left or Down) is pressed then call the decrease() function to decrease the value.
         if ($scope.pressed === 37 || $scope.pressed === 40) {
+            var i = 0;
+            //for(i= 0; i< $scope.step; i++)
             $scope.decrease();
         }
         //same as above but for Up or Right to increase the value.
         if ($scope.pressed === 38 || $scope.pressed === 39) {
+            //for(i= 0; i< $scope.step; i++)
             $scope.increase();
         }
         return;
     };
     /*barClick()
-         * This function is to allow the value to be changed when clicking on the bar*/
+     * This function is to allow the value to be changed when clicking on the bar*/
     $scope.greyClick = function (event) {
         //When click on the empty bar the bar will increase
         $scope.increase();
@@ -105,8 +111,8 @@ app.directive('bossySlider', function ($compile) {
             ngModel: '='
         },
         /*link: function:
-        * This allows us to pull in the settings the programmer wants for the slider and set things correctly
-        * it also initializes the slider and adds the correct orientation template to the DOM*/
+         * This allows us to pull in the settings the programmer wants for the slider and set things correctly
+         * it also initializes the slider and adds the correct orientation template to the DOM*/
         link: function (scope, iElem, iAttr) {
 
             //checks to see if there is a max attribute
@@ -126,43 +132,53 @@ app.directive('bossySlider', function ($compile) {
             //checks for bar color customization
             scope.barfillcolor = "#0000FF";
             if (iAttr.barfillcolor) {
-                var pattern  = /^#[0-9a-fA-F]{6}$/; //currently accepts lower case a-f
-                if(pattern.test(iAttr.barfillcolor)) {
+                var pattern = /^#[0-9a-fA-F]{6}$/; //currently accepts lower case a-f
+                if (pattern.test(iAttr.barfillcolor)) {
                     scope.barfillcolor = iAttr.barfillcolor;
                 }
             }
             //checks for empty bar color customization
             scope.baremptycolor = "#D3D3D3";
             if (iAttr.baremptycolor) {
-                var pattern  = /^#[0-9a-fA-F]{6}$/; //currently accepts lower case a-f
-                if(pattern.test(iAttr.baremptycolor)) {
+                var pattern = /^#[0-9a-fA-F]{6}$/; //currently accepts lower case a-f
+                if (pattern.test(iAttr.baremptycolor)) {
                     scope.baremptycolor = iAttr.baremptycolor;
                 }
             }
-                
+
             scope.buttoncolor = "#FF0000";
             if (iAttr.buttoncolor) {
-                var pattern  = /^#[0-9a-fA-F]{6}$/; //currently accepts lower case a-f
-                if(pattern.test(iAttr.buttoncolor)) {
+                var pattern = /^#[0-9a-fA-F]{6}$/; //currently accepts lower case a-f
+                if (pattern.test(iAttr.buttoncolor)) {
                     scope.buttoncolor = iAttr.buttoncolor;
                 }
+            }
+            /*if(iAttr.step){
+                scope.step = iAttr.step;
+            }*/
+            if (iAttr.width) {
+                scope.barWidth = iAttr.width;
+                scope.barPiece = (scope.barWidth / (scope.max - scope.min));
+            }
+            else {
+                scope.barPiece = (scope.barWidth / (scope.max - scope.min));
             }
             //checks to see if there is a orientation attribute if there is set our template to the vertical template
             if (iAttr.orientation) {
                 if ('vertical' === iAttr.orientation) {
                     myTemplate = '<button ng-click="increase()" ng-keydown="keyBind($event)">+</button>' +
-                    '<div ng-click="greyClick()"style="margin-left:9px;width:3px;height:{{10 * emptWidth}}px;background-color:'+ scope.baremptycolor + ';margin-bottom:4px"></div>' +
-                    '<div draggable orientation="vertical" style="position:absolute;cursor:move;margin-top:-4px;margin-left:5px;width:10px;height:10px;background-color:'+ scope.buttoncolor + ';border-radius:50%;"></div>' +
-                    '<div  ng-click="barClick()"style="margin-left:9px;width:3px;height:{{10 * fillWidth}}px;background-color:' + scope.barfillcolor + ';margin-bottom:4px"></div>' +
+                    '<div ng-click="greyClick()"style="margin-left:9px;width:3px;height:{{barPiece * emptWidth}}px;background-color:' + scope.baremptycolor + ';margin-bottom:4px"></div>' +
+                    '<div draggable orientation="vertical" style="position:absolute;cursor:move;margin-top:-4px;margin-left:5px;width:10px;height:10px;background-color:' + scope.buttoncolor + ';border-radius:50%;"></div>' +
+                    '<div  ng-click="barClick()"style="margin-left:9px;width:3px;height:{{barPiece * fillWidth}}px;background-color:' + scope.barfillcolor + ';margin-bottom:4px"></div>' +
                     '<button ng-click="decrease()" ng-keydown="keyBind($event)">-</button>';
                 }
             }
             else {
                 //this builds our horizontal template
                 myTemplate = '<button ng-click="decrease()" ng-keydown="keyBind($event)">-</button>' +
-                '<div ng-click="barClick()"style="display:inline-block;width:{{10 * fillWidth}}px;height:3px;background-color:' + scope.barfillcolor + ';margin-bottom:4px"></div>' +
-                '<div draggable orientation="horizontal" style="position:absolute;cursor:move;display:inline-block;width:10px;height:10px;background-color:'+ scope.buttoncolor + ';border-radius:50%;"></div>' +
-                '<div ng-click="greyClick()"style="display:inline-block;width:{{10 * emptWidth}}px;height:3px;background-color:' + scope.baremptycolor + ';margin-bottom:4px"></div>' +
+                '<div ng-click="barClick()"style="display:inline-block;width:{{barPiece * fillWidth}}px;height:3px;background-color:' + scope.barfillcolor + ';margin-bottom:4px"></div>' +
+                '<div draggable orientation="horizontal" style="position:absolute;cursor:move;display:inline-block;width:10px;height:10px;background-color:' + scope.buttoncolor + ';border-radius:50%;"></div>' +
+                '<div ng-click="greyClick()"style="display:inline-block;width:{{barPiece * emptWidth}}px;height:3px;background-color:' + scope.baremptycolor + ';margin-bottom:4px"></div>' +
                 '<button ng-click="increase()" ng-keydown="keyBind($event)">+</button>';
             }
             //We show our template and then compile it so the DOM knows about our ng functions
@@ -174,18 +190,18 @@ app.directive('bossySlider', function ($compile) {
         }
     }
 });
-	
-app.directive('draggable', ['$document' , function($document) {
+
+app.directive('draggable', ['$document', function ($document) {
     return {
         restrict: 'A',
         //scope: {
         //we will need this to alter code for vertical orientation of the slider.
         //  orient: '='
         //}
-        link: function(scope, elm, attrs) {
+        link: function (scope, elm, attrs) {
             var startX, startY, initialMouseX, initialMouseY, disx, disy;
-            elm.css({position: 'absolute'});
-            elm.bind('mousedown', function($event) {		  
+            elm.css({ position: 'absolute' });
+            elm.bind('mousedown', function ($event) {
                 startX = elm.prop('offsetLeft');
                 startY = elm.prop('offsetTop');
                 initialMouseX = $event.clientX;
@@ -194,23 +210,22 @@ app.directive('draggable', ['$document' , function($document) {
                 $document.bind('mouseup', mouseup);
                 return false;
             });
- 
+
             function mousemove($event) {
                 disx = $event.clientX - initialMouseX;
                 disy = $event.clientY - initialMouseY;
-                if (attrs.orientation === "vertical")
-                {
+                if (attrs.orientation === "vertical") {
                     elm.css({
-                        top:  startY + disy + 'px',	
+                        top: startY + disy + 'px',
                     });
                 } else {
                     elm.css({
-                        left: startX + disx + 'px',								
+                        left: startX + disx + 'px',
                     });
-                }			
+                }
                 return false;
             }
- 
+
             function mouseup() {
                 $document.unbind('mousemove', mousemove);
                 $document.unbind('mouseup', mouseup);
