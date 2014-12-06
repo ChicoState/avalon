@@ -183,7 +183,7 @@ app.directive('bossySlider', function ($compile) {
             //checks to see if there is a orientation attribute if there is set our template to the vertical template
             if (iAttr.orientation) {
                 if ('vertical' === iAttr.orientation) {
-                    myTemplate = '<button ng-click="butIncrease()" ng-keydown="keyBind($event)">+</button>' +
+                    myTemplate = '<div style= "font-family: Arial; color: #ffffff; font-size: 20px; background: #3498db; padding: 10px 20px 10px 20px; text-decoration: none;" ng-click="butIncrease()" ng-keydown="keyBind($event)">+</div>' +
                     '<div ng-click="greyClick()"style="margin-left:9px;width:3px;height:{{barPiece * emptWidth}}px;background-color:' + scope.baremptycolor + ';margin-bottom:4px"></div>' +
                     '<div draggable orientation="vertical" style="position:absolute;cursor:move;margin-top:-4px;margin-left:5px;width:10px;height:10px;background-color:' + scope.buttoncolor + ';border-radius:50%;"></div>' +
                     '<div  ng-click="barClick()"style="margin-left:9px;width:3px;height:{{barPiece * fillWidth}}px;background-color:' + scope.barfillcolor + ';margin-bottom:4px"></div>' +
