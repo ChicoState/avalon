@@ -1,6 +1,6 @@
 describe('Unit: SliderController', function() {
   // Load the module with MainController
-  beforeEach(module('app.directive.bossy.slider'));
+  beforeEach(module('bossy.slider'));
 
   var ctrl, scope;
   // inject the $controller and $rootScope services
