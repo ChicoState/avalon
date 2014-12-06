@@ -45,7 +45,7 @@ app.controller('SliderController', ['$scope', function ($scope) {
      * of the slider button and updates the value.*/
     $scope.increase = function () {
         if ($scope.value < $scope.max) {
-            $scope.value = $scope.value + $scope.step;
+            $scope.value = $scope.value + 1;
             $scope.fillWidth++;
             $scope.emptWidth--;
             $scope.ngModel = $scope.value;
@@ -53,6 +53,12 @@ app.controller('SliderController', ['$scope', function ($scope) {
         return;
     };
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    $scope.butIncrease = function () {
+        var i = 0;
+        for (i = 0; i < $scope.step; i++) {
+            $scope.increase();
+        }
+    }
 
     /*decrease()
      * This checks bounds when attempting to decrease the value and moves the position
@@ -67,6 +73,12 @@ app.controller('SliderController', ['$scope', function ($scope) {
         return;
     };
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    $scope.butDecrease = function () {
+        var i = 0;
+        for (i = 0; i < $scope.step; i++) {
+            $scope.decrease();
+        }
+    }
 
     /*keyBind($event)
      * This function is to bind the decrease and increase function with the arrow keys*/
@@ -75,16 +87,21 @@ app.controller('SliderController', ['$scope', function ($scope) {
         //If arrow key(Left or Down) is pressed then call the decrease() function to decrease the value.
         if ($scope.pressed === 37 || $scope.pressed === 40) {
             var i = 0;
-            //for(i= 0; i< $scope.step; i++)
-            $scope.decrease();
+            for (i = 0; i < $scope.step; i++) {
+                $scope.decrease();
+            }
+
         }
         //same as above but for Up or Right to increase the value.
         if ($scope.pressed === 38 || $scope.pressed === 39) {
-            //for(i= 0; i< $scope.step; i++)
-            $scope.increase();
+            for (i = 0; i < $scope.step; i++) {
+                $scope.increase();
+            }
+
         }
         return;
     };
+
     /*barClick()
      * This function is to allow the value to be changed when clicking on the bar*/
     $scope.greyClick = function (event) {
@@ -153,9 +170,9 @@ app.directive('bossySlider', function ($compile) {
                     scope.buttoncolor = iAttr.buttoncolor;
                 }
             }
-            /*if(iAttr.step){
+            if (iAttr.step) {
                 scope.step = iAttr.step;
-            }*/
+            }
             if (iAttr.width) {
                 scope.barWidth = iAttr.width;
                 scope.barPiece = (scope.barWidth / (scope.max - scope.min));
@@ -166,20 +183,20 @@ app.directive('bossySlider', function ($compile) {
             //checks to see if there is a orientation attribute if there is set our template to the vertical template
             if (iAttr.orientation) {
                 if ('vertical' === iAttr.orientation) {
-                    myTemplate = '<button ng-click="increase()" ng-keydown="keyBind($event)">+</button>' +
+                    myTemplate = '<button ng-click="butIncrease()" ng-keydown="keyBind($event)">+</button>' +
                     '<div ng-click="greyClick()"style="margin-left:9px;width:3px;height:{{barPiece * emptWidth}}px;background-color:' + scope.baremptycolor + ';margin-bottom:4px"></div>' +
                     '<div draggable orientation="vertical" style="position:absolute;cursor:move;margin-top:-4px;margin-left:5px;width:10px;height:10px;background-color:' + scope.buttoncolor + ';border-radius:50%;"></div>' +
                     '<div  ng-click="barClick()"style="margin-left:9px;width:3px;height:{{barPiece * fillWidth}}px;background-color:' + scope.barfillcolor + ';margin-bottom:4px"></div>' +
-                    '<button ng-click="decrease()" ng-keydown="keyBind($event)">-</button>';
+                    '<button ng-click="butDecrease()" ng-keydown="keyBind($event)">-</button>';
                 }
             }
             else {
                 //this builds our horizontal template
-                myTemplate = '<button ng-click="decrease()" ng-keydown="keyBind($event)">-</button>' +
+                myTemplate = '<button ng-click="butDecrease()" ng-keydown="keyBind($event)">-</button>' +
                 '<div ng-click="barClick()"style="display:inline-block;width:{{barPiece * fillWidth}}px;height:3px;background-color:' + scope.barfillcolor + ';margin-bottom:4px"></div>' +
                 '<div draggable orientation="horizontal" style="position:absolute;cursor:move;display:inline-block;width:10px;height:10px;background-color:' + scope.buttoncolor + ';border-radius:50%;"></div>' +
                 '<div ng-click="greyClick()"style="display:inline-block;width:{{barPiece * emptWidth}}px;height:3px;background-color:' + scope.baremptycolor + ';margin-bottom:4px"></div>' +
-                '<button ng-click="increase()" ng-keydown="keyBind($event)">+</button>';
+                '<button ng-click="butIncrease()" ng-keydown="keyBind($event)">+</button>';
             }
             //We show our template and then compile it so the DOM knows about our ng functions
             iElem.html(myTemplate);
