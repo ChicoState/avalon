@@ -97,7 +97,6 @@ app.controller('SliderController', ['$scope', function ($scope) {
             for (i = 0; i < $scope.step; i++) {
                 $scope.increase();
             }
-
         }
         return;
     };
@@ -154,6 +153,24 @@ app.directive('bossySlider', function ($compile) {
                     scope.barfillcolor = iAttr.barfillcolor;
                 }
             }
+
+			//checks for +/- buttons background color customization
+            scope.butback = "#3498db";
+            if (iAttr.butback) {
+                var pattern = /^#[0-9a-fA-F]{6}$/; //currently accepts lower case a-f
+                if (pattern.test(iAttr.butback)) {
+                    scope.butback = iAttr.butback;
+                }
+            }
+
+			//checks for +/- buttons font color customization
+            scope.butfontcolor = "#ffffff";
+            if (iAttr.butfontcolor) {
+                var pattern = /^#[0-9a-fA-F]{6}$/; //currently accepts lower case a-f
+                if (pattern.test(iAttr.butfontcolor)) {
+                    scope.butfontcolor = iAttr.butfontcolor;
+                }
+            }
             //checks for empty bar color customization
             scope.baremptycolor = "#D3D3D3";
             if (iAttr.baremptycolor) {
@@ -183,20 +200,20 @@ app.directive('bossySlider', function ($compile) {
             //checks to see if there is a orientation attribute if there is set our template to the vertical template
             if (iAttr.orientation) {
                 if ('vertical' === iAttr.orientation) {
-                    myTemplate = '<div style= "height: 10px; width: 10px;font-family: Arial; color: #ffffff; font-size: 20px; background: #3498db; padding: 10px 20px 10px 20px; text-decoration: none;" ng-click="butIncrease()" ng-keydown="keyBind($event)">+</div>' +
-                    '<div ng-click="greyClick()"style="margin-left:9px;width:3px;height:{{barPiece * emptWidth}}px;background-color:' + scope.baremptycolor + ';margin-bottom:4px"></div>' +
+                    myTemplate = '<div style= "height: 10px; width: 10px;font-family: Arial; color:' + scope.butfontcolor + '; font-size: 20px; background:' + scope.butback +'; padding: 10px 20px 10px 20px; text-decoration: none;" ng-click="butIncrease()" ng-keydown="keyBind($event)">+</div>' +
+                    '<div ng-click="greyClick()"style="display:inline-block;width:3px;height:{{barPiece * emptWidth}}px;background-color:' + scope.baremptycolor + ';margin-bottom:4px"></div>' +
                     '<div draggable orientation="vertical" style="position:absolute;cursor:move;display:inline-block;width:10px;height:10px;background-color:' + scope.buttoncolor + ';border-radius:50%;"></div>' +
-                    '<div  ng-click="barClick()"style="margin-left:9px;width:3px;height:{{barPiece * fillWidth}}px;background-color:' + scope.barfillcolor + ';margin-bottom:4px"></div>' +
-                    '<div style= "height: 10px; width: 10px;font-family: Arial; color: #ffffff; font-size: 20px; background: #3498db; padding: 10px 20px 10px 20px; text-decoration: none;" ng-click="butDecrease()" ng-keydown="keyBind($event)">-</div>';
+                    '<div  ng-click="barClick()"style="display:inline-block;width:3px;height:{{barPiece * fillWidth}}px;background-color:' + scope.barfillcolor + ';margin-bottom:4px"></div>' +
+                    '<div style= "height: 10px; width: 10px;font-family: Arial; color:' + scope.butfontcolor + '; font-size: 20px; background:' + scope.butback + '; padding: 10px 20px 10px 20px; text-decoration: none;" ng-click="butDecrease()" ng-keydown="keyBind($event)">-</div>';
                 }
             }
             else {
                 //this builds our horizontal template
-                myTemplate = '<div style= "height: 10px; width: 10px;font-family: Arial; color: #ffffff; font-size: 20px; background: #3498db; padding: 10px 20px 10px 20px; text-decoration: none;" ng-click="butDecrease()" ng-keydown="keyBind($event)">-</div>' +
+                myTemplate = '<div style= "height: 10px; width: 10px;font-family: Arial; color: ' + scope.butfontcolor + '; font-size: 20px; background:' + scope.butback + '; padding: 10px 20px 10px 20px; text-decoration: none;" ng-click="butDecrease()" ng-keydown="keyBind($event)">-</div>' +
                 '<div ng-click="barClick()"style="display:inline-block;width:{{barPiece * fillWidth}}px;height:3px;background-color:' + scope.barfillcolor + ';margin-bottom:4px"></div>' +
                 '<div draggable orientation="horizontal" style="position:absolute;cursor:move;display:inline-block;width:10px;height:10px;background-color:' + scope.buttoncolor + ';border-radius:50%;"></div>' +
                 '<div ng-click="greyClick()"style="display:inline-block;width:{{barPiece * emptWidth}}px;height:3px;background-color:' + scope.baremptycolor + ';margin-bottom:4px"></div>' +
-                '<div style= "height: 10px; width: 10px;font-family: Arial; color: #ffffff; font-size: 20px; background: #3498db; padding: 10px 20px 10px 20px; text-decoration: none;" ng-click="butIncrease()" ng-keydown="keyBind($event)">+</div>';
+                '<div style= "height: 10px; width: 10px;font-family: Arial; color: ' + scope.butfontcolor + '; font-size: 20px; background:' + scope.butback +'; padding: 10px 20px 10px 20px; text-decoration: none;" ng-click="butIncrease()" ng-keydown="keyBind($event)">+</div>';
             }
             //We show our template and then compile it so the DOM knows about our ng functions
             iElem.html(myTemplate);
