@@ -142,7 +142,7 @@ describe('Unit: SliderController', function() {
       scope.keyBind(fakeEvent);
       expect(scope.value).toEqual(7);
   });
-  
+
   it('should decrement the slider value when pressing the left or down keys', function() {
       expect(scope.value).toEqual(5);
       var fakeEvent = new Object;
@@ -154,5 +154,37 @@ describe('Unit: SliderController', function() {
       expect(scope.value).toEqual(3);
   });
 
+  it('should not increment the slider value past max when pressing keys', function() {
+      expect(scope.value).toEqual(5);
+      var fakeEvent = new Object;
+      fakeEvent.which = 38;
+      scope.keyBind(fakeEvent);
+      expect(scope.value).toEqual(6);
+      fakeEvent.which = 39;
+      scope.keyBind(fakeEvent);
+      expect(scope.value).toEqual(7);
+      scope.keyBind(fakeEvent);
+      scope.keyBind(fakeEvent);
+      scope.keyBind(fakeEvent);
+      scope.keyBind(fakeEvent);
+      scope.keyBind(fakeEvent);
+      expect(scope.value).toEqual(10);
+  });
 
+  it('should not decrement the slider value past min when pressing keys', function() {
+      expect(scope.value).toEqual(5);
+      var fakeEvent = new Object;
+      fakeEvent.which = 37;
+      scope.keyBind(fakeEvent);
+      expect(scope.value).toEqual(4);
+      fakeEvent.which = 40;
+      scope.keyBind(fakeEvent);
+      expect(scope.value).toEqual(3);
+      scope.keyBind(fakeEvent);
+      scope.keyBind(fakeEvent);
+      scope.keyBind(fakeEvent);
+      scope.keyBind(fakeEvent);
+      scope.keyBind(fakeEvent);
+      expect(scope.value).toEqual(1);
+  });
 })
