@@ -15,12 +15,15 @@ app.controller('SliderController', ['$scope', function ($scope) {
     $scope.min = 1;
     $scope.fillWidth = 0;
     $scope.emptWidth = 0;
-    $scope.barWidth = 50;
+    $scope.barWidth = 500;
     $scope.barPiece = 0;
     $scope.step = 1;
     $scope.isMouseDown = 0;
+    $scope.yCord = 0;
     $scope.xCord = 0;
     $scope.newXCord = 0;
+    $scope.newYCord = 0;
+    $scope.orientation = false;
 
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -127,18 +130,39 @@ app.controller('SliderController', ['$scope', function ($scope) {
         var x = event.clientX;
         var y = event.clientY;
         if ($scope.isMouseDown) {
-            if ($scope.xCord === 0) {
-                $scope.xCord = x;
+            if ($scope.orientation) {
+                if ($scope.yCord === 0) {
+                    $scope.yCord = y;
+                }
+                else {
+                    $scope.newYCord = y;
+                    if (($scope.newYCord - $scope.yCord) > $scope.barPiece / 2) {
+                        $scope.yCord += $scope.barPiece;
+                        $scope.decrease();
+                    }
+                    if (($scope.newYCord - $scope.yCord) < -($scope.barPiece / 2)) {
+                        $scope.yCord -= $scope.barPiece;
+                        $scope.increase();
+                    }
+                }
+                console.log($scope.newYCord - $scope.yCord + " " + $scope.barPiece);
             }
             else {
-                $scope.newXCord = x;
-                if (($scope.newXCord - $scope.xCord) > $scope.barPiece) {
-
-                    $scope.increase();
+                if ($scope.xCord === 0) {
+                    $scope.xCord = x;
                 }
-                if (($scope.newXCord - $scope.xCord) < -($scope.barPiece)) {
-                    $scope.decrease();
+                else {
+                    $scope.newXCord = x;
+                    if (($scope.newXCord - $scope.xCord) > $scope.barPiece / 2) {
+                        $scope.xCord += $scope.barPiece;
+                        $scope.increase();
+                    }
+                    if (($scope.newXCord - $scope.xCord) < -($scope.barPiece / 2)) {
+                        $scope.xCord -= $scope.barPiece;
+                        $scope.decrease();
+                    }
                 }
+                console.log($scope.newXCord - $scope.xCord + " " + $scope.barPiece);
             }
             console.log($scope.newXCord - $scope.xCord + " " + $scope.barPiece);
             //console.log("The mouse is down: " + x + " " + y);
@@ -146,17 +170,27 @@ app.controller('SliderController', ['$scope', function ($scope) {
         else {
             $scope.newXCord = 0;
             $scope.xCord = 0;
+            $scope.newYCord = 0;
+            $scope.yCord = 0;
             console.log("The mouse is up: " + x + " " + y);
         }
+        return;
     };
     $scope.down = function (event) {
+        $scope.newXCord = 0;
+        $scope.xCord = 0;
+        $scope.newYCord = 0;
+        $scope.yCord = 0;
         $scope.isMouseDown = 1;
+        return;
     };
     $scope.up = function (event) {
+        $scope.newXCord = 0;
+        $scope.xCord = 0;
+        $scope.newYCord = 0;
+        $scope.yCord = 0;
         $scope.isMouseDown = 0;
-    };
-    this.getData = function () {
-        return $scope.value;
+        return;
     };
 }])
 app.directive('bossySlider', function ($compile) {
@@ -225,20 +259,21 @@ app.directive('bossySlider', function ($compile) {
                 //checks to see if there is a orientation attribute if there is set our template to the vertical template
                 if (iAttr.orientation) {
                     if ('vertical' === iAttr.orientation) {
-                        myTemplate = '<button ng-click="butIncrease()" ng-keydown="keyBind($event)">+</button>' +
-                        '<div ng-click="greyClick()"style="margin-left:9px;width:3px;height:{{barPiece * emptWidth}}px;background-color:' + scope.baremptycolor + ';margin-bottom:4px"></div>' +
-                        '<div draggable orientation="vertical" style="position:absolute;cursor:move;margin-top:-4px;margin-left:5px;width:10px;height:10px;background-color:' + scope.buttoncolor + ';border-radius:50%;"></div>' +
-                        '<div  ng-click="barClick()"style="margin-left:9px;width:3px;height:{{barPiece * fillWidth}}px;background-color:' + scope.barfillcolor + ';margin-bottom:4px"></div>' +
-                        '<button ng-click="butDecrease()" ng-keydown="keyBind($event)">-</button>';
+                        scope.orientation = true;
+                        myTemplate = '<div ng-mouseleave="up()"><button ng-click="butIncrease()" ng-keydown="keyBind($event)">+</button>' +
+                        '<div ng-mousemove="drag($event)" ng-mouseup="up()" ng-click="greyClick()"style="margin-left:9px;width:5px;height:{{barPiece * emptWidth}}px;background-color:' + scope.baremptycolor + ';margin-bottom:4px"></div>' +
+                        '<div ng-mousemove="drag($event)" ng-mousedown="down()" ng-mouseup="up()" orientation="vertical" style="position:absolute;cursor:move;margin-top:-4px;margin-left:5px;width:15px;height:15px;background-color:' + scope.buttoncolor + ';border-radius:50%;"></div>' +
+                        '<div ng-mousemove="drag($event)" ng-mouseup="up()" ng-click="barClick()"style="margin-left:9px;width:5px;height:{{barPiece * fillWidth}}px;background-color:' + scope.barfillcolor + ';margin-bottom:4px"></div>' +
+                        '<button ng-click="butDecrease()" ng-keydown="keyBind($event)">-</button></div>';
                     }
                 }
                 else {
                     //this builds our horizontal template
-                    myTemplate = '<button ng-click="butDecrease()" ng-keydown="keyBind($event)">-</button>' +
-                    '<div ng-click="barClick()"style="display:inline-block;width:{{barPiece * fillWidth}}px;height:3px;background-color:' + scope.barfillcolor + ';margin-bottom:4px"></div>' +
-                    '<div ng-mousemove="drag($event)" ng-mousedown="down()" ng-mouseup="up()"orientation="horizontal" style="position:absolute;cursor:move;display:inline-block;width:10px;height:10px;background-color:' + scope.buttoncolor + ';border-radius:50%;"></div>' +
-                    '<div ng-click="greyClick()"style="display:inline-block;width:{{barPiece * emptWidth}}px;height:3px;background-color:' + scope.baremptycolor + ';margin-bottom:4px"></div>' +
-                    '<button ng-click="butIncrease()" ng-keydown="keyBind($event)">+</button>';
+                    myTemplate = '<div ng-mouseleave="up()"><button ng-click="butDecrease()" ng-keydown="keyBind($event)">-</button>' +
+                    '<div ng-mousemove="drag($event)" ng-mouseup="up()" ng-click="barClick()"style="display:inline-block;width:{{barPiece * fillWidth}}px;height:5px;background-color:' + scope.barfillcolor + ';margin-bottom:4px"></div>' +
+                    '<div ng-mousemove="drag($event)" ng-mousedown="down()" ng-mouseup="up()" orientation="horizontal" style="position:absolute;cursor:move;display:inline-block;width:15px;height:15px;background-color:' + scope.buttoncolor + ';border-radius:50%;"></div>' +
+                    '<div ng-mousemove="drag($event)" ng-mouseup="up()" ng-click="greyClick()"style="display:inline-block;width:{{barPiece * emptWidth}}px;height:5px;background-color:' + scope.baremptycolor + ';margin-bottom:4px"></div>' +
+                    '<button ng-click="butIncrease()" ng-keydown="keyBind($event)">+</button></div>';
                 }
                 //We show our template and then compile it so the DOM knows about our ng functions
                 iElem.html(myTemplate);
@@ -251,57 +286,4 @@ app.directive('bossySlider', function ($compile) {
         }
     }
 });
-/*app.controller('DragController', ['$scope', function ($scope){
-    //$scope.myValue = $scope.value;
-    $scope.something = $scope.makeBar();
-}]);
-app.directive('draggable', ['$document' , function($document) {
-    return {
-        restrict: 'A',
-        scope: false,
-        require: '^bossySlider',
-        controller: 'DragController',
-        //controller: 'SliderController',
-        // {
-        //we will need this to alter code for vertical orientation of the slider.
-        //  orient: '='
-        //}
-        link: function(scope, elm, attrs, crtl) {
-            var startX, startY, initialMouseX, initialMouseY, disx, disy;
-            //scope.something;
-            console.log(crtl.getData());
-            //console.log(scope.myValue);
-            elm.css({position: 'absolute'});
-            elm.bind('mousedown', function($event) {
-                startX = elm.prop('offsetLeft');
-                startY = elm.prop('offsetTop');
-                initialMouseX = $event.clientX;
-                initialMouseY = $event.clientY;
-                $document.bind('mousemove', mousemove);
-                $document.bind('mouseup', mouseup);
-                return false;
-            });
 
-            function mousemove($event) {
-                disx = $event.clientX - initialMouseX;
-                disy = $event.clientY - initialMouseY;
-                if (attrs.orientation === "vertical")
-                {
-                    elm.css({
-                        top:  startY + disy + 'px',
-                    });
-                } else {
-                    elm.css({
-                        left: startX + disx + 'px',
-                    });
-                }
-                return false;
-            }
-
-            function mouseup() {
-                $document.unbind('mousemove', mousemove);
-                $document.unbind('mouseup', mouseup);
-            }
-        }
-    };
-}]);*/
