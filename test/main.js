@@ -187,4 +187,69 @@ describe('Unit: SliderController', function() {
       scope.keyBind(fakeEvent);
       expect(scope.value).toEqual(1);
   });
+
+  it('should set mouse coords to zero and set mouse down to 1', function() {
+      scope.down();
+      expect(scope.newXCord).toEqual(0);
+      expect(scope.xCord).toEqual(0);
+      expect(scope.newYCord).toEqual(0);
+      expect(scope.yCord).toEqual(0);
+      expect(scope.isMouseDown).toEqual(1);
+  });
+
+  it('should set mouse coords to zero and set mouse down to 0', function() {
+      scope.down();
+      scope.up();
+      expect(scope.newXCord).toEqual(0);
+      expect(scope.xCord).toEqual(0);
+      expect(scope.newYCord).toEqual(0);
+      expect(scope.yCord).toEqual(0);
+      expect(scope.isMouseDown).toEqual(0);
+  });
+
+  it('should increment the slider when clicking and dragging by 1', function() {
+      scope.down();
+      var fakeDrag = new Object;
+      fakeDrag.clientX = 400;
+      fakeDrag.clientY = 200;
+      scope.drag(fakeDrag);
+      fakeDrag.clientX = 402;
+      fakeDrag.clientY = 200;
+      scope.drag(fakeDrag);
+      expect(scope.value).toEqual(6);
+  });
+
+    it('should decrement the slider when clicking and dragging by 1', function() {
+      scope.down();
+      var fakeDrag = new Object;
+      fakeDrag.clientX = 400;
+      fakeDrag.clientY = 200;
+      scope.drag(fakeDrag);
+      fakeDrag.clientX = 398;
+      fakeDrag.clientY = 200;
+      scope.drag(fakeDrag);
+      expect(scope.value).toEqual(4);
+  });
+
+  it('should not increment the slider past max when clicking and dragging', function() {
+      scope.down();
+      var fakeDrag = new Object;
+      fakeDrag.clientY = 400 + (i*2)
+      for (var i = 0; i < 10; i++) {
+        fakeDrag.clientX = 400 + (i*2);
+        scope.drag(fakeDrag);
+      };
+      expect(scope.value).toEqual(10);
+  });
+
+    it('should not decrement the slider past than min when clicking and dragging', function() {
+      scope.down();
+      var fakeDrag = new Object;
+      fakeDrag.clientY = 400 + (i*2)
+      for (var i = 0; i < 10; i++) {
+        fakeDrag.clientX = 400 - (i*2);
+        scope.drag(fakeDrag);
+      };
+      expect(scope.value).toEqual(1); 
+  });
 })
