@@ -162,7 +162,7 @@ app.directive('bossySlider', function ($compile) {
                     scope.baremptycolor = iAttr.baremptycolor;
                 }
             }
-
+			//checks for button color customization
             scope.buttoncolor = "#FF0000";
             if (iAttr.buttoncolor) {
                 var pattern = /^#[0-9a-fA-F]{6}$/; //currently accepts lower case a-f
@@ -185,7 +185,7 @@ app.directive('bossySlider', function ($compile) {
                 if ('vertical' === iAttr.orientation) {
                     myTemplate = '<div style= "height: 10px; width: 10px;font-family: Arial; color: #ffffff; font-size: 20px; background: #3498db; padding: 10px 20px 10px 20px; text-decoration: none;" ng-click="butIncrease()" ng-keydown="keyBind($event)">+</div>' +
                     '<div ng-click="greyClick()"style="margin-left:9px;width:3px;height:{{barPiece * emptWidth}}px;background-color:' + scope.baremptycolor + ';margin-bottom:4px"></div>' +
-                    '<div draggable orientation="vertical" style="position:absolute;cursor:move;margin-top:-4px;margin-left:5px;width:10px;height:10px;background-color:' + scope.buttoncolor + ';border-radius:50%;"></div>' +
+                    '<div draggable orientation="vertical" style="position:absolute;cursor:move;display:inline-block;width:10px;height:10px;background-color:' + scope.buttoncolor + ';border-radius:50%;"></div>' +
                     '<div  ng-click="barClick()"style="margin-left:9px;width:3px;height:{{barPiece * fillWidth}}px;background-color:' + scope.barfillcolor + ';margin-bottom:4px"></div>' +
                     '<div style= "height: 10px; width: 10px;font-family: Arial; color: #ffffff; font-size: 20px; background: #3498db; padding: 10px 20px 10px 20px; text-decoration: none;" ng-click="butDecrease()" ng-keydown="keyBind($event)">-</div>';
                 }
