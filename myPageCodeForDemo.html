@@ -1,0 +1,103 @@
+﻿<!DOCTYPE html>
+<!--
+    Document   : index
+    Created on : Apr 8, 2014, 6:59:12 PM
+    Author     : Dr. Storm
+    Description:
+        The main website page this holds all the info so far. The content shown is chosen by the js file. My projects get there own HTML file due to all the pictures
+-->
+<html>
+<head>
+    <link rel="shortcut icon" href="icon/favicon.ico">
+    <title>TSF</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="mystyle.css" rel="stylesheet" type="text/css" id="styleType">
+
+    <script src="myjavascript.js"></script><!--My java script file-->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-rc.3/angular.js"></script>
+    <script src="bossy.slider.js"></script>
+</head>
+<body>
+
+    <div class="top">
+        <h2 id="header">Welcome to the site of Taber Storm!</h2>
+    </div>
+
+    <div class="left" id="nav">
+        <a href="index.html" class="about notSmall white click"><h3>About</h3></a>
+        <a href="projects.html" class="projects notSmall white click"><h3>Projects</h3></a>
+        <a href="CrypTrd.html" class="CRPTD white click notSmall"><h3>CryptsyTrader</h3></a>
+        <a href="TRP.html" class="TRP notSmall white click"><h3>TRP</h3></a>
+        <a href="GM.html" class="GM notSmall white click"><h3>Gm Tools</h3></a>
+        <a href="test.html" class="notSmall white click active"><h3>AngularJS</h3></a>
+        <a href="calendar.html" class="notSmall white click"><h3>Schedule</h3></a>
+        <a href="resume.html" class="resume notSmall white click"><h3>Resume</h3></a>
+    </div>
+
+    <div class="body">
+
+
+        <div ng-app="bossy.slider">
+
+            <p>
+                This is a work in progress of a slider widget. This widget is using AngularJS and is not implementing
+                JQuery. That said it is still under progress. This widget will be part of a collection of widgets from
+                the Bossy UI project which can be found <a href="https://github.com/buildcom/BossyUI" class="blue click">here.</a>
+                Go check it out!
+            </p>
+            <img style="position: absolute; left:75px; top: 100px; width:{{10 + mine2 * 10}}px; height:{{10 + mine3 * 10}}px;" src="img/androidButton.png" />
+            <bossy-slider orientation="vertical" max="30" ng-model="mine3"></bossy-slider>
+            <bossy-slider max="30" ng-model="mine2"></bossy-slider>
+
+            <br>
+            <br>
+
+            <p>
+                It is very easy to use this slider. Once you get set up with AngularJS and incorporate our slider
+                directive you can use it by simply using a tag like normal html. ex.
+            </p>
+            <xmp><bossy-slider baremptycolor="#550055" min="0" max="100" step="15" ng-model="valueToUse"></bossy-slider></xmp>
+            <p>It can alternatively be written as an attribute to a tag. ex.</p>
+            <xmp><div bossy-slider baremptycolor="#550055" min="0" max="100" step="15" ng-model="valueToUse"></div> </xmp>
+            <p>
+                This creates the slider. We are using the ng-model to bind the value of the slider to a variable called
+                valueToUse. This we can use interpolation to get the value. ex. double curly braces.
+            </p>
+            <bossy-slider baremptycolor="#550055" min="0" max="100" step="15" ng-model="mine7"></bossy-slider>
+            <p>The value is {{mine7}}!</p>
+
+            <br>
+            <p>
+                The slider supports several options such as the fill bar color, slider circle color, step size, max, and
+                min to name a few
+            </p>
+            <br>
+
+            <bossy-slider min="-50" max="0" width="100" ng-model="mine4"></bossy-slider>
+            <p>The value is {{mine4}}!</p>
+            <br>
+            <bossy-slider min="-15" max="15" width="100" ng-model="mine5"></bossy-slider>
+            <p>The value is {{mine5}}!</p>
+            <br>
+            <bossy-slider step="20" orientation="vertical" buttoncolor="#00fefe" barfillcolor="#ff0022" min="0" max="255" width="255" ng-model="mine6"></bossy-slider>
+            <p>The value is {{mine6}}!</p>
+            <br>
+
+            <br>
+            <p>The toggle switch</p>
+            <bossy-slider ng-model="mine8" width="600" min="0" max="3"></bossy-slider>
+            <p>The value is {{mine8}}!</p>
+            <br>
+            <p></p>
+            <p>They add up to {{mine4 + mine5 + mine6 + mine7 + mine8}}</p>
+
+            <!--style= "height: 15px; width: 15px;font-size: 20px; background-color:green; text-decoration: none;" -->
+
+        </div>
+    </div>
+
+
+</body>
+</html>
