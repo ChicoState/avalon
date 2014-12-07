@@ -260,7 +260,7 @@ app.directive('bossySlider', function ($compile) {
                 if (iAttr.orientation) {
                     if ('vertical' === iAttr.orientation) {
                         scope.orientation = true;
-                        myTemplate = '<div ng-mouseleave="up()"><button ng-click="butIncrease()" ng-keydown="keyBind($event)">+</button>' +
+                        myTemplate = '<div onselectstart="return false;" ondragstart="return false;"ng-mouseleave="up()"><button ng-click="butIncrease()" ng-keydown="keyBind($event)">+</button>' +
                         '<div ng-mousemove="drag($event)" ng-mouseup="up()" ng-click="greyClick()"style="margin-left:9px;width:5px;height:{{barPiece * emptWidth}}px;background-color:' + scope.baremptycolor + ';margin-bottom:4px"></div>' +
                         '<div ng-mousemove="drag($event)" ng-mousedown="down()" ng-mouseup="up()" orientation="vertical" style="position:absolute;cursor:move;margin-top:-4px;margin-left:5px;width:15px;height:15px;background-color:' + scope.buttoncolor + ';border-radius:50%;"></div>' +
                         '<div ng-mousemove="drag($event)" ng-mouseup="up()" ng-click="barClick()"style="margin-left:9px;width:5px;height:{{barPiece * fillWidth}}px;background-color:' + scope.barfillcolor + ';margin-bottom:4px"></div>' +
@@ -269,7 +269,7 @@ app.directive('bossySlider', function ($compile) {
                 }
                 else {
                     //this builds our horizontal template
-                    myTemplate = '<div ng-mouseleave="up()"><button ng-click="butDecrease()" ng-keydown="keyBind($event)">-</button>' +
+                    myTemplate = '<div onselectstart="return false;" ondragstart="return false;" ng-mouseleave="up()"><button ng-click="butDecrease()" ng-keydown="keyBind($event)">-</button>' +
                     '<div ng-mousemove="drag($event)" ng-mouseup="up()" ng-click="barClick()"style="display:inline-block;width:{{barPiece * fillWidth}}px;height:5px;background-color:' + scope.barfillcolor + ';margin-bottom:4px"></div>' +
                     '<div ng-mousemove="drag($event)" ng-mousedown="down()" ng-mouseup="up()" orientation="horizontal" style="position:absolute;cursor:move;display:inline-block;width:15px;height:15px;background-color:' + scope.buttoncolor + ';border-radius:50%;"></div>' +
                     '<div ng-mousemove="drag($event)" ng-mouseup="up()" ng-click="greyClick()"style="display:inline-block;width:{{barPiece * emptWidth}}px;height:5px;background-color:' + scope.baremptycolor + ';margin-bottom:4px"></div>' +
