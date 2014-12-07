@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <!--
     Document   : index
     Created on : Apr 8, 2014, 6:59:12 PM
@@ -47,9 +47,9 @@
                 the Bossy UI project which can be found <a href="https://github.com/buildcom/BossyUI" class="blue click">here.</a>
                 Go check it out!
             </p>
-            <img style="position: absolute; left:75px; top: 125px; width:{{100 + mine2 * 10}}px; height:{{100 + mine3 * 10}}px;" src="img/androidButton.png" />
-            <bossy-slider orientation="vertical" ng-model="mine3"></bossy-slider>
-            <bossy-slider ng-model="mine2"></bossy-slider>
+            <img style="position: absolute; left:75px; top: 100px; width:{{10 + mine2 * 10}}px; height:{{10 + mine3 * 10}}px;" src="img/androidButton.png" />
+            <bossy-slider orientation="vertical" max="30" ng-model="mine3"></bossy-slider>
+            <bossy-slider max="30" ng-model="mine2"></bossy-slider>
 
             <br>
             <br>
@@ -69,20 +69,25 @@
             <p>The value is {{mine7}}!</p>
 
             <br>
+            <p>
+                The slider supports several options such as the fill bar color, slider circle color, step size, max, and
+                min to name a few
+            </p>
             <br>
 
-            <bossy-slider min="-5" max="0" width="100" ng-model="mine4"></bossy-slider>
+            <bossy-slider min="-50" max="0" width="100" ng-model="mine4"></bossy-slider>
             <p>The value is {{mine4}}!</p>
             <br>
-            <bossy-slider min="-5" max="5" width="500" ng-model="mine5"></bossy-slider>
+            <bossy-slider min="-15" max="15" width="100" ng-model="mine5"></bossy-slider>
             <p>The value is {{mine5}}!</p>
             <br>
-            <bossy-slider orientation="vertical" buttoncolor="#00fefe" barfillcolor="#ff0022" min="-5" max="0" width="100" ng-model="mine6"></bossy-slider>
+            <bossy-slider step="20" orientation="vertical" buttoncolor="#00fefe" barfillcolor="#ff0022" min="0" max="255" width="255" ng-model="mine6"></bossy-slider>
             <p>The value is {{mine6}}!</p>
             <br>
 
             <br>
-            <bossy-slider ng-model="mine8"></bossy-slider>
+            <p>The toggle switch</p>
+            <bossy-slider ng-model="mine8" width="600" min="0" max="3"></bossy-slider>
             <p>The value is {{mine8}}!</p>
             <br>
             <p></p>
