@@ -24,12 +24,16 @@ app.controller('SliderController', ['$scope', function ($scope) {
     $scope.newYCord = 0;
     $scope.orientation = false;
     $scope.butSize = 15;
+    $scope.barfillcolor = "#0000FF";
+    $scope.baremptycolor = "#D3D3D3";
+    $scope.buttoncolor = "#FF0000";
 
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /*makeBar()
-     * This creates the initial graphic of the slider and ensures it is in the correct order*/
+     * This creates the initial graphic of the slider and ensures it is in the correct order
+     * CC = 4 */
     $scope.makeBar = function () {
         //button should show up in the middle now or close to if uneven
         $scope.value = parseInt(($scope.max + $scope.min) / 2);
@@ -50,7 +54,8 @@ app.controller('SliderController', ['$scope', function ($scope) {
 
     /*increase()
      * This checks bounds when attempting to increase the value and moves the position
-     * of the slider button and updates the value.*/
+     * of the slider button and updates the value.
+     * CC = 2*/
     $scope.increase = function () {
         if ($scope.value < $scope.max) {
             $scope.value = $scope.value + 1;
@@ -63,18 +68,21 @@ app.controller('SliderController', ['$scope', function ($scope) {
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /*butIncrease()
-     * This function allows the slider to increase in increments.*/
+     * This function allows the slider to increase in increments.
+     * CC = 1*/
     $scope.butIncrease = function () {
         var i = 0;
         for (i = 0; i < $scope.step; i++) {
             $scope.increase();
         }
+        return;
     }
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /*decrease()
      * This checks bounds when attempting to decrease the value and moves the position
-     * of the slider button and updates the value.*/
+     * of the slider button and updates the value.
+     * CC = 2*/
     $scope.decrease = function () {
         if ($scope.value > $scope.min) {
             $scope.value = $scope.value - 1;
@@ -87,32 +95,30 @@ app.controller('SliderController', ['$scope', function ($scope) {
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /*butDecrease()
-     * This function allows the slider to decrease in increments*/
+     * This function allows the slider to decrease in increments
+     * CC = 1*/
     $scope.butDecrease = function () {
         var i = 0;
         for (i = 0; i < $scope.step; i++) {
             $scope.decrease();
         }
+        return;
     }
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /*keyBind($event)
-     * This function is to bind the decrease and increase function with the arrow keys*/
+     * This function is to bind the decrease and increase function with the arrow keys
+     * CC = 5*/
     $scope.keyBind = function (ev) {
         $scope.pressed = ev.which;
         //If arrow key(Left or Down) is pressed then call the decrease() function to decrease the value.
         if ($scope.pressed === 37 || $scope.pressed === 40) {
-            var i = 0;
-            for (i = 0; i < $scope.step; i++) {
-                $scope.decrease();
-            }
+            $scope.butDecrease();
 
         }
         //same as above but for Up or Right to increase the value.
         if ($scope.pressed === 38 || $scope.pressed === 39) {
-            for (i = 0; i < $scope.step; i++) {
-                $scope.increase();
-            }
+            $scope.butIncrease();
 
         }
         return;
@@ -120,20 +126,22 @@ app.controller('SliderController', ['$scope', function ($scope) {
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /*greyClick()
-     * This function is to allow the value to be changed when clicking on the bar*/
+     * This function is to allow the value to be changed when clicking on the bar
+     * CC = 1*/
     $scope.greyClick = function (event) {
         //When click on the empty bar the bar will increase
-        $scope.increase();
+        $scope.butIncrease();
 
         return;
     };
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /*barClick()
-     * This function is to allow the value to be changed when clicking on the bar*/
+     * This function is to allow the value to be changed when clicking on the bar
+     * CC = 1*/
     $scope.barClick = function (event) {
         //When click on the Filled up color side the bar will decrease
-        $scope.decrease();
+        $scope.butDecrease();
 
         return;
     };
@@ -141,7 +149,8 @@ app.controller('SliderController', ['$scope', function ($scope) {
 
     /*drag($event)
      * This function allows the button to drag by finding its location then checks it against its original location
-     * and if it is distance is greater than the size of a barpiece update the graphic and value*/
+     * and if it is distance is greater than the size of a barpiece update the graphic and value
+     * CC = 9*/
     $scope.drag = function (event) {
 
         //grab the mouse location
@@ -192,27 +201,27 @@ app.controller('SliderController', ['$scope', function ($scope) {
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /*down()
-     * This function logs when the mouse is down*/
+     * This function logs when the mouse is down
+     * CC = 1*/
     $scope.down = function () {
         $scope.newXCord = 0;
         $scope.xCord = 0;
         $scope.newYCord = 0;
         $scope.yCord = 0;
         $scope.isMouseDown = 1;
-        //$scope.butSize = 20;
         return;
     };
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /*down()
-     * This function logs when the mouse is up*/
+     * This function logs when the mouse is up
+     * CC = 1*/
     $scope.up = function () {
         $scope.newXCord = 0;
         $scope.xCord = 0;
         $scope.newYCord = 0;
         $scope.yCord = 0;
         $scope.isMouseDown = 0;
-        //$scope.butSize = 15;
         return;
     };
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -247,7 +256,6 @@ app.directive('bossySlider', function ($compile) {
                     }
                 }
                 //checks for bar color customization
-                scope.barfillcolor = "#0000FF";
                 if (iAttr.barfillcolor) {
                     var pattern = /^#[0-9a-fA-F]{6}$/; //currently accepts lower case a-f
                     if (pattern.test(iAttr.barfillcolor)) {
@@ -255,7 +263,7 @@ app.directive('bossySlider', function ($compile) {
                     }
                 }
                 //checks for empty bar color customization
-                scope.baremptycolor = "#D3D3D3";
+
                 if (iAttr.baremptycolor) {
                     var pattern = /^#[0-9a-fA-F]{6}$/; //currently accepts lower case a-f
                     if (pattern.test(iAttr.baremptycolor)) {
@@ -263,7 +271,7 @@ app.directive('bossySlider', function ($compile) {
                     }
                 }
 
-                scope.buttoncolor = "#FF0000";
+
                 if (iAttr.buttoncolor) {
                     var pattern = /^#[0-9a-fA-F]{6}$/; //currently accepts lower case a-f
                     if (pattern.test(iAttr.buttoncolor)) {
